@@ -19,6 +19,12 @@ class ImportAddressCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        // outputs multiple lines to the console (adding "\n" at the end of each line)
+        $output->writeln([
+            'Importing ...................',
+            'Please wait, it might take time because the .dat file is very big',
+        ]);
+
         $addresses = file("./data/BAF_20191116.dat");
         $data = array();
         $index = 0;
@@ -33,7 +39,14 @@ class ImportAddressCommand extends Command
             $index++;
         }
         $repo = new AddressRepository();
-        $repo->insertAddress($data);
+        $status = $repo->insertAddress($data);
+        if($status['status'] === true){
+            $output->writeln($status['message']);
+        }else{
+            $output->writeln($status['message']);
+        }
+
+
 
     }
 
