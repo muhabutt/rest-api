@@ -60,16 +60,16 @@ Readme
 ```php
 
 CREATE TABLE `addresses` (
-  `id` int(10) NOT NULL,
-  `street_name` varchar(255) DEFAULT NULL,
-  `street_name_alt` varchar(255) DEFAULT NULL,
-  `postal_code` varchar(45) DEFAULT NULL,
-  `city` varchar(255) DEFAULT NULL,
-  `city_alt` varchar(255) DEFAULT NULL,
-  `min_apartment_no` varchar(10) DEFAULT NULL,
-  `max_apartment_no` varchar(10) DEFAULT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `street_name` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `street_name_alt` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `postal_code` varchar(45) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `city` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `city_alt` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `min_apartment_no` varchar(10) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `max_apartment_no` varchar(10) CHARACTER SET utf8mb4 DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 ```
 ### api routes 
