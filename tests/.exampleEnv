@@ -1,0 +1,7 @@
+HOST=localhost:3306
+environment=testing
+DBNAME=YOUR_DB
+USERNAME=YOUR_DB_USER_NAME
+PASSWORD=YOUR_DB_USER_PASSWORD
+URL=http://api-test-dev.com/
+
