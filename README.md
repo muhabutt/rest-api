@@ -75,7 +75,7 @@ CREATE TABLE `addresses` (
 ### api routes 
 ``` html
 - https://your-url.com/address/streets/finnsih_street_name or swedish_street_name
-for e.g https://your-url.com/api-v1/address/streets/peijsksentie
+for e.g https://your-url.com/address/streets/peijsksentie
 ```
 
 ### api output
