@@ -1,4 +1,4 @@
-# PHP Custom MVC framework, With PHPUnit Testing, Symphony console package
+# PHP Simple and custom MVC framework, With PHPUnit Testing, Symphony console package, Symphony validator, Mockery
 
 ### Things to do before calling the api's
 

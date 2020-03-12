@@ -37,8 +37,8 @@ class AddressIntegrationTest extends TestCase
     }
 
     /**
-     * Test getAddAddressname which is calling AddressRepository Static method
-     * Using Mockery to mock AddressRepository Class, and partialy mock the
+     * Test getAddAddressName which is calling AddressRepository Static method
+     * Using Mockery to mock AddressRepository Class, and partially mock the
      * AddressRepository class, in order to mock static getAddressByName function
      *
      */
