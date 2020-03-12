@@ -5,14 +5,26 @@ namespace Tests\Integration;
 
 
 use App\Models\Address;
-use App\Repository\AddressRepository;
 use DI\Container;
 use Dotenv\Dotenv;
 use PHPUnit\Framework\TestCase;
+use Mockery;
 
+/**
+ * Class AddressIntegrationTest
+ * @package Tests\Integration
+ */
 class AddressIntegrationTest extends TestCase
 {
+    /**
+     * @var mixed|App\Models\Address
+     */
     private $address;
+
+    /**
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
+     */
     public function setUp(): void
     {
         parent::setUp();
@@ -23,19 +35,15 @@ class AddressIntegrationTest extends TestCase
         $container = new Container();
         $this->address = $container->get('App\Models\Address');;
     }
+
     /**
-     * Test search street by street name swedish or finnish
+     * Test getAddAddressname which is calling AddressRepository Static method
+     * Using Mockery to mock AddressRepository Class, and partialy mock the
+     * AddressRepository class, in order to mock static getAddressByName function
+     *
      */
     public function test_get_street_by_street_name_finnish_or_swedish(){
 
-        /**
-         * Mocker Address repository class to return data which is needed
-         * that is rowCount, and rows(Assoc), than insert dependency to the
-         * address class which is calling getAddressByName
-         */
-        $dbMock = $this->getMockBuilder(AddressRepository::class)
-            ->onlyMethods(['getAddressByName'])
-            ->getMock();
         //fake array returned from getAddressbyName Address repository
         $mockAddress = array();
         $mockAddress['rowCount'] = 1;
@@ -49,13 +57,25 @@ class AddressIntegrationTest extends TestCase
             'min_apartment_no' => '1',
             'max_apartment_no' => '15'
         ];
-        //Here adding return data to getAddressbyName method
-        $dbMock->method('getAddressByName')->willReturn($mockAddress);
+
+        $addressRepoClass = Mockery::mock('App\Repository\AddressRepository')->makePartial();
+
+        $addressRepoClass->shouldReceive('getAddressByName')
+            ->andReturn($mockAddress);
+
 
         //Passing mocked Address Repository to address
-        $testAddresses = new Address($dbMock);
+        $testAddresses = new Address($addressRepoClass);
 
         $addresses = $testAddresses->getAddressByName('Peijaksentie');
         $this->assertEquals('Peijaksentie',$addresses[0]['attributes']['streetName']);
+    }
+
+    /**
+     * Close Mocker when teardown
+     */
+    public function tearDown() : void
+    {
+        Mockery::close();
     }
 }

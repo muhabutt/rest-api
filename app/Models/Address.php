@@ -5,20 +5,56 @@ namespace App\Models;
 use App\Core\Database;
 use App\Repository\AddressRepository;
 
+/**
+ * Class Address
+ * @package App\Models
+ */
 class Address
 {
 
+    /**
+     * handles all database related queries
+     * @var AddressRepository
+     */
     private $repo;
 
+    /**
+     * @var
+     */
     private $id;
+    /**
+     * @var
+     */
     private $streetName;
+    /**
+     * @var
+     */
     private $streetNameAlt;
+    /**
+     * @var
+     */
     private $postalCode;
+    /**
+     * @var
+     */
     private $city;
+    /**
+     * @var
+     */
     private $cityAlt;
+    /**
+     * @var
+     */
     private $minApartmentNo;
+    /**
+     * @var
+     */
     private $maxApartmentNo;
 
+    /**
+     * Address constructor.
+     * @param AddressRepository $repo
+     */
     public function __construct(AddressRepository $repo)
     {
         $this->repo = $repo;
@@ -154,14 +190,12 @@ class Address
 
 
     /**
-     * @param null $streetName
-     * @param null $streetNameAlt
+     * @param $streetName
      * @return array
      */
-    public function getAddressByName($streetName = '')
+    public function getAddressByName($streetName)
     {
-        //query
-        $data = $this->repo->getAddressByName($streetName);
+        $data = $this->repo::getAddressByName($streetName);
         $numberOfRecords = $data['rowCount'];
         $addresses = array();
         $index = 0;
@@ -194,6 +228,10 @@ class Address
         return $this;
     }
 
+    /**
+     * Format return address object entities into array
+     * @return array
+     */
     public function format()
     {
         return [

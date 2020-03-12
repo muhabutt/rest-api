@@ -1,5 +1,5 @@
 {
-  "name": "Custom Mvc",
+  "name": "Custom Mvc rest api",
   "type": "project",
   "description": "The MVC pattern.",
   "keywords": [
@@ -22,11 +22,13 @@
     "ext-pdo": "*",
     "ext-json": "*",
     "php-di/php-di": "^6.0",
-    "phpunit/phpunit": "^9.0",
-    "symfony/console": "^4.0"
+    "symfony/console": "^4.0",
+    "symfony/validator": "^5.0"
   },
   "require-dev": {
-    "vlucas/phpdotenv": "^4.1"
+    "vlucas/phpdotenv": "^4.1",
+    "phpunit/phpunit": "^9.0",
+    "mockery/mockery": "dev-master"
   },
   "autoload-dev": {
     "psr-4": {

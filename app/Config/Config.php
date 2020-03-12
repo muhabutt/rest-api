@@ -2,8 +2,17 @@
 
 namespace App\Config;
 
+/**
+ * Class Config
+ * To get php .env parameters use getValue(ENV_KEY)
+ * @package App\Config
+ */
 class Config
 {
+    /**
+     * @param $key
+     * @return mixed|string
+     */
     public static function getValue($key)
     {
         $configData = $_ENV;

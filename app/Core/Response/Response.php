@@ -2,87 +2,54 @@
 
 namespace App\Core\Response;
 
-use App\Core\Helpers;
-
+/**
+ * Class Response
+ * @package App\Core\Response
+ */
 class Response
 {
     /**
-     * @param null $statusCode
-     * @param null $headers
-     * @param null $body
-     * simple json response
+     * @var
      */
-    public static function sendJson200Response($statusCode = null, $data = null)
+    protected $content;
+
+    /**function return json response with contents, and status code
+     * @param $statusCode
+     * @param $content
+     */
+    public static function jsonResponse($statusCode, $content)
     {
-        $body = [
-            'data' => $data
-        ];
-        header('HTTP/1.0 ' . $statusCode);
+        http_response_code($statusCode);
         header("Content-type", "application/json");
-        print_r(json_encode($body));
-        exit(1);
+
+        echo json_encode($content);
+
+        if (\function_exists('fastcgi_finish_request')) {
+            fastcgi_finish_request();
+        } elseif (!\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true)) {
+            static::closeOutputBuffers(0, true);
+        }
     }
 
     /**
-     * @param null $statusCode
-     * @param null $errors
+     * Cleans or flushes output buffers up to target levels.
+     * symphony response class function
+     * Resulting level can be greater than target level if a non-removable buffer has been encountered.
+     *
+     * @final
      */
-    public static function sendJson400Response($statusCode = null, $errors = null)
+    public static function closeOutputBuffers(int $targetLevel, bool $flush): void
     {
-        $body = [
-            'errors' => $errors
-        ];
-        header('HTTP/1.0 ' . $statusCode);
-        header("Content-type", "application/json");
-        print_r(json_encode($body));
-        exit(1);
+        $status = ob_get_status(true);
+        $level = \count($status);
+        $flags = PHP_OUTPUT_HANDLER_REMOVABLE | ($flush ? PHP_OUTPUT_HANDLER_FLUSHABLE : PHP_OUTPUT_HANDLER_CLEANABLE);
+
+        while ($level-- > $targetLevel && ($s = $status[$level]) && (!isset($s['del']) ? !isset($s['flags']) || ($s['flags'] & $flags) === $flags : $s['del'])) {
+            if ($flush) {
+                ob_end_flush();
+            } else {
+                ob_end_clean();
+            }
+        }
     }
-
-    /**
-     * Json 500 response
-     */
-    public static function sendJson500Response()
-    {
-        $errors = [
-            [
-                'id' => Helpers::generateUniqueID(),
-                'status' => '500',
-                'title' => 'Parameter not given',
-                'detail' => 'Please contact customer support'
-            ]
-        ];
-
-        $body = [
-            'errors' => $errors
-        ];
-        header('HTTP/1.0 ' . 500);
-        header("Content-type", "application/json");
-        print_r(json_encode($body));
-        exit(1);
-    }
-
-    /**
-     * json response if routes are not found or url is not correctly pointing to api
-     */
-    public static function sendJsonRouteExceptionResponse()
-    {
-        $errors = [
-            [
-                'id' => Helpers::generateUniqueID(),
-                'status' => '404',
-                'title' => 'URL not found',
-                'detail' => 'Please type correct url'
-            ]
-        ];
-
-        $body = [
-            'errors' => $errors
-        ];
-        header('HTTP/1.0 ' . 500);
-        header("Content-type", "application/json");
-        print_r(json_encode($body));
-        exit(1);
-
-    }
-
 }

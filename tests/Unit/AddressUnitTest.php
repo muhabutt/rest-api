@@ -5,9 +5,21 @@ use DI\Container;
 use Dotenv\Dotenv;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class AddressUnitTest
+ * @package Tests\Unit
+ */
 class AddressUnitTest extends TestCase {
 
+    /**
+     * @var mixed|App\Models\Address
+     */
     private $address;
+
+    /**
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
+     */
     public function setUp(): void
     {
         parent::setUp();

@@ -81,7 +81,7 @@ for e.g https://your-url.com/api-v1/address/streets/peijsksentie
 ### api output
 ```
 // 20200309211042
-// http://api-test-dev.com/api-v1/address/streets/peijaksentie
+// http://api-test-dev.com/address/streets/peijaksentie
 
 {
   "data": [

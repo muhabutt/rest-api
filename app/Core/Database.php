@@ -7,14 +7,34 @@ namespace App\Core;
 use App\Config\Config;
 use App\Core\Response\Response;
 use PDO;
+use PDOException;
 
+/**
+ * Class Database
+ * @package App\Core
+ */
 class Database
 {
+    /**
+     * @var mixed|string
+     */
     private $host;
+    /**
+     * @var mixed|string
+     */
     private $db;
+    /**
+     * @var mixed|string
+     */
     private $username;
+    /**
+     * @var mixed|string
+     */
     private $password;
 
+    /**
+     * Database constructor.
+     */
     public function __construct()
     {
         $this->host = Config::getValue('HOST');
@@ -23,6 +43,10 @@ class Database
         $this->password = Config::getValue('PASSWORD');
     }
 
+    /**
+     * Connects with databases and return PDO
+     * @return PDO
+     */
     public function connectDB()
     {
         try {
@@ -31,8 +55,8 @@ class Database
                 $this->username,
                 $this->password);
             //$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (\PDOException $e) {
-            Response::sendJson500Response();
+        } catch (PDOException $e) {
+            Helpers::errorResponse500('Could not connect to database!');
         }
 
         return $pdo;

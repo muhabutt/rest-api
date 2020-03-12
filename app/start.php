@@ -1,12 +1,14 @@
 <?php
+//Headers for application
 ini_set('default_charset', 'UTF-8');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST,GET');
 header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Access-Control-Allow-Origin,Access-Control-Allow-Methods, Authrorization, X_Requested-With');
 
 // Session cache false
-//Session starts
 session_cache_limiter(false);
+
+//Session starts
 session_start();
 
 //Define aplication root directory to constant
@@ -19,7 +21,14 @@ require_once INC_ROOT .'/vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createMutable(INC_ROOT );
 $dotenv->load();
 
-//convert all errors, warning, and notices into errors
+/**
+ * convert all errors, warning, and notices into errors
+ * @param $severity
+ * @param $message
+ * @param $file
+ * @param $line
+ * @throws ErrorException
+ */
 function exception_error_handler($severity, $message, $file, $line) {
     if (!(error_reporting() & $severity)) {
         // This error code is not included in error_reporting
