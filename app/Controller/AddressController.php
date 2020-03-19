@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Core\Controller;
 use App\Core\Helpers;
+use App\Core\Response\Response;
+use App\Models\Address;
 use DI\Container;
 use DI\DependencyException;
 use DI\NotFoundException;
@@ -17,11 +19,11 @@ use Symfony\Component\Validator\Validation;
 class AddressController extends Controller
 {
     /**
-     * @var mixed|App\Core\Response\Response
+     * @var mixed|Response
      */
     private $response;
     /**
-     * @var mixed|App\Models\Address
+     * @var mixed|Address
      */
     private $address;
 
@@ -47,7 +49,7 @@ class AddressController extends Controller
      *Get street by streetName finnish or swedish
      * @param $streetName
      */
-    public function streets($streetName)
+    public function streets(string $streetName)
     {
         //Symphony validator
         $validator = Validation::createValidator();

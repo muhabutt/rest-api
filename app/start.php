@@ -1,4 +1,6 @@
 <?php
+
+use App\Config\Config;
 //Headers for application
 ini_set('default_charset', 'UTF-8');
 header('Access-Control-Allow-Origin: *');
@@ -39,7 +41,7 @@ function exception_error_handler($severity, $message, $file, $line) {
 set_error_handler("exception_error_handler");
 
 //error reporting is off for production should be On for development
-$env = \App\Config\Config::getValue('ENV');
+$env = Config::getValue('ENV');
 if( $env == 'development'){
     ini_set('display_errors', 'On');
 }else{

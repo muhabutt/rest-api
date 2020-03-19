@@ -12,13 +12,15 @@ class Controller
 {
     /**
      * Function used to pass data to the vies,
-     * $view paramter is path to view file, and $data is for passing data to be handled inside view
-     * @param $view
+     * $view parameter is path to view file, and $data is for passing data to be handled inside view
+     * @param string $view
      * @param array $data
+     * @noinspection PhpUnusedParameterInspection
+     * @noinspection PhpIncludeInspection
      */
-    protected function view($view, $data = [])
+    protected function view(string $view, $data = [])
     {
-        require_once('../app/Views/' . $view . '.php');
+        require_once("../app/Views/{$view}.php");
     }
 
     /**
@@ -28,14 +30,16 @@ class Controller
      */
     protected function input($inputName)
     {
-        if (!isset($_POST[$inputName]) || !isset($_POST[$inputName])) {
-            return null;
+        $input = null;
+        if (!isset($_POST[$inputName])) {
+            $input = null;
         } else {
             if ($_SERVER['REQUEST_METHOD'] == 'POST' || $_SERVER["REQUEST_METHOD"] === 'post') {
-                return htmlspecialchars($_POST[$inputName]);
+               $input = htmlspecialchars($_POST[$inputName]);
             } elseif ($_SERVER['REQUEST_METHOD'] == 'GET' || $_SERVER["REQUEST_METHOD"] === 'get') {
-                return htmlspecialchars($_GET[$inputName]);
+                $input = htmlspecialchars($_GET[$inputName]);
             }
         }
+        return $input;
     }
 }

@@ -1,7 +1,10 @@
 <?php
 namespace Tests\Unit;
 
+use App\Models\Address;
 use DI\Container;
+use DI\DependencyException;
+use DI\NotFoundException;
 use Dotenv\Dotenv;
 use PHPUnit\Framework\TestCase;
 
@@ -12,13 +15,12 @@ use PHPUnit\Framework\TestCase;
 class AddressUnitTest extends TestCase {
 
     /**
-     * @var mixed|App\Models\Address
+     * @var mixed|Address
      */
     private $address;
 
     /**
-     * @throws \DI\DependencyException
-     * @throws \DI\NotFoundException
+     * Function run before tests
      */
     public function setUp(): void
     {
@@ -28,7 +30,13 @@ class AddressUnitTest extends TestCase {
         $dotenv->load();
         //Dependency container , using PHP DI package
         $container = new Container();
-        $this->address = $container->get('App\Models\Address');;
+        try {
+            $this->address = $container->get ('App\Models\Address');
+        } catch (DependencyException $e) {
+            echo 'Class Not found ' . $e->getMessage ();
+        } catch (NotFoundException $e) {
+            echo 'Class Not found ' . $e->getMessage ();
+        }
     }
 
     /**

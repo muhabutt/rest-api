@@ -2,6 +2,8 @@
 namespace App\Core;
 
 use DI\Container;
+use Exception;
+use Throwable;
 
 /**
  * Class Routes
@@ -32,10 +34,10 @@ class Routes
      * index[0] => is the controller constructor will checks if controller exists than instantiate the class
      * index[1] => is the function in controller constructor checks if function exists
      * index[2] and [3] or 4 => are the parameters.
-     * finally constructor call the function with its paramters
+     * finally constructor call the function with its parameters
      * if there is any error constructor call response route error function
      * Routes constructor.
-     *
+     *@noinspection PhpIncludeInspection
      */
     public function __construct()
     {
@@ -47,7 +49,7 @@ class Routes
             if(isset($url[0])){
                 if (file_exists('../app/Controller/' . ucfirst($url[0]) . 'Controller.php')) {
                     $this->controller = ucfirst($url[0]) . 'Controller';
-                    require_once('../app/Controller/' . $this->controller . '.php');
+                    require_once( "../app/Controller/{$this->controller}.php" );
                     $class = ('App\\Controller\\' . $this->controller);
                     $this->controller = new $class(new Container);
                     unset($url[0]); // remove controller index
@@ -79,11 +81,11 @@ class Routes
             //if controller is found with method and parameters, now call function and if no success
             //than error response else call controller api
             if (!call_user_func_array([$this->controller, $this->method], $this->params)) {
-                throw new \Exception();
+                throw new Exception();
             }
 
-        } catch (\Throwable $e) {
-            Helpers::errorResponse500('api not found!' . $e->getMessage());
+        } catch (Throwable $e) {
+            Helpers::errorResponse500('api not found!');
         }
 
     }
@@ -111,6 +113,7 @@ class Routes
                 Helpers::errorResponse500('Route not found');
             }
         }
+        return $url;
     }
 
 

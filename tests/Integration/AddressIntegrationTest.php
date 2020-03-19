@@ -5,7 +5,10 @@ namespace Tests\Integration;
 
 
 use App\Models\Address;
+use App\Repository\AddressRepository;
 use DI\Container;
+use DI\DependencyException;
+use DI\NotFoundException;
 use Dotenv\Dotenv;
 use PHPUnit\Framework\TestCase;
 use Mockery;
@@ -17,23 +20,28 @@ use Mockery;
 class AddressIntegrationTest extends TestCase
 {
     /**
-     * @var mixed|App\Models\Address
+     * @var mixed|Address
      */
     private $address;
 
     /**
-     * @throws \DI\DependencyException
-     * @throws \DI\NotFoundException
+     * Function is called before tests
      */
     public function setUp(): void
     {
-        parent::setUp();
+        parent::setUp ();
         //Load environmental variables for testing
-        $dotenv = Dotenv::createMutable(dirname(__DIR__));
-        $dotenv->load();
+        $dotenv = Dotenv::createMutable (dirname (__DIR__));
+        $dotenv->load ();
         //Dependency container , using PHP DI package
         $container = new Container();
-        $this->address = $container->get('App\Models\Address');;
+        try {
+            $this->address = $container->get ('App\Models\Address');
+        } catch (DependencyException $e) {
+            echo 'Class Not found ' . $e->getMessage ();
+        } catch (NotFoundException $e) {
+            echo 'Class Not found ' . $e->getMessage ();
+        }
     }
 
     /**
@@ -42,7 +50,8 @@ class AddressIntegrationTest extends TestCase
      * AddressRepository class, in order to mock static getAddressByName function
      *
      */
-    public function test_get_street_by_street_name_finnish_or_swedish(){
+    public function test_get_street_by_street_name_finnish_or_swedish()
+    {
 
         //fake array returned from getAddressbyName Address repository
         $mockAddress = array();
@@ -58,24 +67,25 @@ class AddressIntegrationTest extends TestCase
             'max_apartment_no' => '15'
         ];
 
-        $addressRepoClass = Mockery::mock('App\Repository\AddressRepository')->makePartial();
+        $addressRepoClass = Mockery::mock ('App\Repository\AddressRepository')->makePartial ();
 
-        $addressRepoClass->shouldReceive('getAddressByName')
-            ->andReturn($mockAddress);
+        $addressRepoClass->shouldReceive ('getAddressByName')
+            ->andReturn ($mockAddress);
 
 
         //Passing mocked Address Repository to address
+        /** @var AddressRepository $addressRepoClass */
         $testAddresses = new Address($addressRepoClass);
 
-        $addresses = $testAddresses->getAddressByName('Peijaksentie');
-        $this->assertEquals('Peijaksentie',$addresses[0]['attributes']['streetName']);
+        $addresses = $testAddresses->getAddressByName ('Peijaksentie');
+        $this->assertEquals ('Peijaksentie', $addresses[0]['attributes']['streetName']);
     }
 
     /**
      * Close Mocker when teardown
      */
-    public function tearDown() : void
+    public function tearDown(): void
     {
-        Mockery::close();
+        Mockery::close ();
     }
 }

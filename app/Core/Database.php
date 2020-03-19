@@ -5,7 +5,6 @@ namespace App\Core;
 
 
 use App\Config\Config;
-use App\Core\Response\Response;
 use PDO;
 use PDOException;
 
@@ -49,6 +48,7 @@ class Database
      */
     public function connectDB()
     {
+        $pdo = null;
         try {
             $pdo = new PDO(
                 "mysql:host=".$this->host.";dbname=".$this->db.";"."charset=utf8",

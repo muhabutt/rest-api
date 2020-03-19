@@ -39,7 +39,8 @@ class AddressRepository extends Database
     {
         //query
         try {
-            $query = 'SELECT * FROM ' . self::$table . ' where street_name = :streetName OR street_name_alt = :streetName limit 50';
+            $query = /** @lang text */
+                'SELECT * FROM ' . self::$table . ' where street_name = :streetName OR street_name_alt = :streetName limit 50';
 
             //prepare statement
             $statement = self::$conn->prepare($query);
@@ -62,7 +63,8 @@ class AddressRepository extends Database
      */
     public static function insertAddress($data)
     {
-        $query = "INSERT INTO " . self::$table . " 
+        $query = /** @lang text */
+            "INSERT INTO " . self::$table . " 
         SET 
         street_name = :streetName ,
         street_name_alt = :streetNameAlt ,
@@ -75,7 +77,6 @@ class AddressRepository extends Database
 
         try {
             $statement = self::$conn->prepare($query);
-            $i = 1;
             //bind the values one by one
             $statement->bindParam(':streetName', $data['streetName']);
             $statement->bindParam('streetNameAlt', $data['streetNameAlt']);
@@ -102,7 +103,8 @@ class AddressRepository extends Database
      */
     public static function bulkInsertAddress($data)
     {
-        $query = "INSERT INTO " . self::$table . " (
+        $query = /** @lang text */
+            "INSERT INTO " . self::$table . " (
                        street_name,
                        street_name_alt,
                        postal_code,
