@@ -4,13 +4,28 @@
 namespace App\Core\Request;
 use App\Core\Request\IRequest as IRequest;
 
+/**
+ * Class Request
+ * @package App\Core\Request
+ */
 class Request implements IRequest
 {
+    /**
+     * @var
+     */
+    private $requestMethod;
+
+    /**
+     * Request constructor.
+     */
     public function __construct()
     {
         $this->bootstrapSelf();
     }
 
+    /**
+     *
+     */
     private function bootstrapSelf()
     {
         foreach($_SERVER as $key => $value)
@@ -18,6 +33,11 @@ class Request implements IRequest
             $this->{$this->toCamelCase($key)} = $value;
         }
     }
+
+    /**
+     * @param $string
+     * @return string|string[]
+     */
     private function toCamelCase($string)
     {
         $result = strtolower($string);
@@ -35,6 +55,9 @@ class Request implements IRequest
         return $result;
     }
 
+    /**
+     * @return array|void
+     */
     public function getBody()
     {
         if($this->requestMethod === "GET")
@@ -55,6 +78,13 @@ class Request implements IRequest
             return $body;
         }
     }
+
+
+    /**
+     * @return array | void
+     * @noinspection PhpUnusedFunctionInspection
+     */
+
     public function getJson()
     {
         if ($this->requestMethod == "POST")
