@@ -1,5 +1,9 @@
 # PHP Simple and custom MVC framework, With PHPUnit Testing, Symphony console package, Symphony validator, Mockery
 
+### PHPUnit Code covrage is used to check how much php testing is done and on which class and function.
+
+- The folder for php reports is phpUnitReports
+
 ### Things to do before calling the api's
 
 - Create .env file copy .exampleENV file and change variables according to your needs.
