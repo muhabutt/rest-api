@@ -37,15 +37,18 @@ class AddressRepository extends Database
      */
     public static function getAddressByName($streetName)
     {
+        $street_name = $streetName;
+        $street_name_alt = $streetName;
         //query
         try {
             $query = /** @lang text */
-                'SELECT * FROM ' . self::$table . ' where street_name = :streetName OR street_name_alt = :streetName limit 50';
+                'SELECT * FROM ' . self::$table . ' where street_name = :streetName OR street_name_alt = :street_name_alt limit 50';
 
             //prepare statement
             $statement = self::$conn->prepare($query);
 
-            $statement->bindParam(':streetName', $streetName);
+            $statement->bindParam(':streetName', $street_name);
+            $statement->bindParam(':street_name_alt', $street_name_alt);
 
             $statement->execute();
             return [
