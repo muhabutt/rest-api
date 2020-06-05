@@ -7,11 +7,15 @@
 ### Things to do before calling the api's
 
 - Create .env file copy .exampleENV file and change variables according to your needs.
-- Create tests/.env file copy .exampleENV file and change variables according to your needs. this is testing environments.
 - PHP character set should be UTF-8.
 - PHP memory_limit=default or more, when running command for importing .dat file into database.
 - MYSql max_allowed_packet=default, when running command for importing .dat file into database.
 - Composer install, or composer update, to install PHPUnit, symfony/console
+
+### For running the test's
+- Create tests/.env file copy .exampleENV file and change variables according to your needs. this is testing environments.
+- You need to create the database and create the address table.
+- Run php console\bin ImportAddress
 
 ### Folder structure and description
 ``` html
