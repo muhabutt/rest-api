@@ -17,6 +17,9 @@
 - You need to create the database and create the address table.
 - Run php console\bin ImportAddress
 
+### For phpunit coverage html
+- vendor\bin\phpunit --coverage-html FolderName
+
 ### Folder structure and description
 ``` html
 app
